@@ -346,6 +346,7 @@
         </ul>
       </li>
 
+      {% capture ca_api_nav %}
       <li><strong>CA v1 API</strong>
         <ul>
           <li><a href="{{ puppet_dir }}/http_api/http_certificate.html">Certificate</a></li>
@@ -354,6 +355,7 @@
           <li><a href="{{ puppet_dir }}/http_api/http_certificate_revocation_list.html">Certificate Revocation List</a></li>
         </ul>
       </li>
+      {% endcapture %}{{ ca_api_nav }}
 
       <li><strong>Schemas (JSON files)</strong>
         <ul>
@@ -375,12 +377,16 @@
   </li>
   <li><strong>SSL and Certificates</strong>
     <ul>
+      <li><a href="{{ puppet_dir }}/ssl_overview.html">Overview of SSL in Puppet</a></li>
+      <li><a href="{{ puppet_dir }}/ssl_manage.html">Managing Node Certificates</a></li>
+      <li><a href="/references/{{ puppet_version }}.latest/man/cert.html">Man Page: Puppet Cert</a></li>
       <li><a href="{{ puppet_dir }}/config_ssl_external_ca.html">Using an External CA</a></li>
       <li><a href="/puppetserver/{{ server_version }}/external_ca_configuration.html">Using an External CA With Puppet Server</a></li>
       <li><a href="/puppetserver/{{ server_version }}/external_ssl_termination.html">External SSL Termination With Puppet Server</a></li>
       <li><a href="{{ puppet_dir }}/ssl_autosign.html">Configuring Autosigning</a></li>
       <li><a href="{{ puppet_dir }}/ssl_attributes_extensions.html">CSR Attributes and Certificate Extensions</a></li>
       <li><a href="{{ puppet_dir }}/ssl_regenerate_certificates.html">Regenerating All Certificates in a Deployment</a></li>
+      {{ ca_api_nav }}
     </ul>
   </li>
 
