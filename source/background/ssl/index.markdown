@@ -11,7 +11,7 @@ Puppet's network communications and security are all based on HTTPS, which secur
 
 These tools and protocols can sometimes present a steep learning curve for new Puppet users. This series provides background knowledge about how SSL and certificates work, and is aimed at giving new Puppet users enough fluency with these concepts to read and understand the rest of the SSL documentation on this site.
 
-> **A note about depth:** This background information is vastly simplified and glosses over a great many implementation details; its goal is basic competency, not expertise. But if you're interested in learning more, it should provide enough context and vocabulary to research these topics in more depth. (The Wikipedia pages on [PKI][wiki_pki] and [TLS/SSL][wiki_tls] may be a good starting place; after that, we recommend hitting the library or your local technical book store.)
+> **A note about depth:** This background information is vastly simplified and glosses over a great many implementation details; its goal is basic competency, not expertise. But if you're interested in learning more, it should provide enough context and vocabulary to research these topics in more depth. (The Wikipedia pages on [PKI][wiki_pki] and [TLS/SSL][wiki_tls] might be a good starting place; after that, we recommend hitting the library or your local technical book store.)
 
 Table of Contents
 -----

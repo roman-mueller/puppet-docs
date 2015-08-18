@@ -184,7 +184,7 @@ Certificate:
         a6:6e:85:74:45:fd:e0:34:7b:5f:09:ef:ba:3d:a2:be:9c:da:
         12:5d:54:06:58:e1:15:0b:0d:0d:d1:7d:12:4d:2a:a6:80:ef:
         90:e4:9a:fc:c3:22:a6:e1
-</code></pre> 
+</code></pre>
 
 In the sections below, we will cover some of the notable features of this output:
 
@@ -235,7 +235,7 @@ In Puppet, generally only one CA certificate is in use within a given deployment
 
 SSL certificates are only valid within a specific span of time, which is set by the CA when it signs the certificate. In Puppet, the duration is configurable, and the validity period always begins at the time at which the CA signs the certificate.
 
-Note that if nodes disagree about what time it is, they may reject otherwise-valid certificates. For example, if a CA is living in the future when it signs a certificate, any nodes living in the present will think that certificate has not become valid yet and will reject it.
+Note that if nodes disagree about what time it is, they can reject otherwise-valid certificates. For example, if a CA is living in the future when it signs a certificate, any nodes living in the present will think that certificate has not become valid yet and will reject it.
 
 ### Alternative DNS Names
 
@@ -294,7 +294,7 @@ These fields are part of the [certificate extensions feature][extensions] added 
 A CA Certificate
 -----
 
-CA certificates are similar to other certificates, with a few critical differences. CA certs include different sets of permissions, and may have a circular "Issuer" reference.
+CA certificates are similar to other certificates, with a few critical differences. CA certs include different sets of permissions, and can sometimes have a circular "Issuer" reference.
 
 ### PEM File
 

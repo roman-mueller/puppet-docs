@@ -58,7 +58,7 @@ SSL Termination and Proxying
 
 Large server-side HTTPS applications often need to be split into multiple semi-independent components or services, in order to accommodate better resiliency or performance. SSL is often the first component to go; even in cases where most of the application runs as a single process, SSL is computationally expensive enough to be worth splitting out.
 
-A single component that handles SSL in a service-oriented-architecture is called an _SSL terminating proxy._ SSL proxies work under basically the same requirements as the SSL component of a purely local application stack --- they must validate certificates and provide a secure channel, and they may need to publish connection and certificate information for use by other components of the stack. They also introduce one additional requirement: the network between the proxy and the application server must be very secure, as sensitive information will be passing along it in cleartext.
+A single component that handles SSL in a service-oriented-architecture is called an _SSL terminating proxy._ SSL proxies work under basically the same requirements as the SSL component of a purely local application stack --- they must validate certificates and provide a secure channel, and they might need to publish connection and certificate information for use by other components of the stack. They also introduce one additional requirement: the network between the proxy and the application server must be very secure, as sensitive information will be passing along it in cleartext.
 
 [ssl_terminating_proxy]: ./images/ssl_terminating_proxy.png
 
@@ -80,4 +80,4 @@ End of Series
 
 At this point, you should understand enough about the fundamentals to understand any documentation on this site about managing Puppet's certificates, CA, and HTTPS authorization tools.
 
-For a little more practical depth, you may also want to see the [appendix on certificate anatomy.][certificate_anatomy]
+For a little more practical depth, see the [appendix on certificate anatomy.][certificate_anatomy]
