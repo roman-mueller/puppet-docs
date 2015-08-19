@@ -115,14 +115,14 @@ When checking a certificate's validity, participants in a PKI should also ensure
 Certificates and Puppet: The Puppet CA
 -----
 
-Puppet includes built-in tools for creating and managing a CA. This allows Puppet to be used in deployments where a suitable PKI is not already present. Using the built-in CA also provides some extra conveniences when bringing new nodes online; since agent nodes already know how the Puppet CA works, they can automatically request certificates when they first attempt to contact the puppet master. (By default, these certificates must be manually signed by an admin, although automatic signing can be configured.)
+Puppet includes built-in tools for creating and managing a CA. This allows Puppet to be used in deployments where a suitable PKI is not already present. Using the built-in CA also provides some extra conveniences when bringing new nodes online; since agent nodes already know how the Puppet CA works, they can automatically request certificates when they first attempt to contact the Puppet master. (By default, these certificates must be manually signed by an admin, although automatic signing can be configured.)
 
-In Puppet's default configuration, a CA will be automatically created the first time you start the puppet master server.
+In Puppet's default configuration, a CA will be automatically created the first time you start the Puppet master server.
 
 The Puppet CA consists of the following components:
 
-* Several HTTPS services provided by the puppet master, which accept incoming CSRs and serve the CA cert, the CRL, and signed certificates.
-    * Note that in sites with more than one puppet master server, only one should act as the CA. This is covered in [the guide to configuring multiple masters](/guides/scaling_multiple_masters.html#centralize-the-certificate-authority).
+* Several HTTPS services provided by the Puppet master, which accept incoming CSRs and serve the CA cert, the CRL, and signed certificates.
+    * Note that in sites with more than one Puppet master server, only one should act as the CA. This is covered in [the guide to configuring multiple masters](/guides/scaling_multiple_masters.html#centralize-the-certificate-authority).
 * The CA's on-disk files, which include the CA certificate, the CA private key, any stored CSRs, an inventory of previously signed certificates (as well as copies of them), and the CRL.
 * Command-line tools for viewing pending CSRs and signing, examining, and revoking certificates.
 * Additional HTTPS services that allow certificates to be signed and revoked. (Since these can be dangerous, they are configured to be inaccessible by default.)

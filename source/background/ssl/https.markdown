@@ -20,15 +20,15 @@ The entire HTTP protocol is wrapped, including headers; this means that even URL
 HTTPS and Puppet
 -----
 
-Puppet uses HTTPS for all of its traffic; puppet agent nodes act as clients and request their catalogs from the puppet master server.
+Puppet uses HTTPS for all of its traffic; Puppet agent nodes act as clients and request their catalogs from the Puppet master server.
 
 Since Puppet uses HTTPS, it requires a certificate-based PKI, which in turn requires public key cryptography. (Hence the prior articles in this series.)
 
 ### Client Authentication
 
-Most of Puppet's HTTP endpoints require client authentication, so the puppet master can ensure nodes are authorized before serving configuration catalogs.
+Most of Puppet's HTTP endpoints require client authentication, so the Puppet master can ensure nodes are authorized before serving configuration catalogs.
 
-This means that both puppet master servers and puppet agent nodes must have their own certificates.
+This means that both Puppet master servers and Puppet agent nodes must have their own certificates.
 
 However, certain endpoints can be used without client authentication, mostly so that new nodes can retrieve a copy of the CA certificate, submit CSRs, and retrieve their signed certificates.
 
@@ -51,7 +51,7 @@ In practice, though, other levels of an application will usually want access to 
 
 Thus, most SSL implementations have some means to publish connection and certificate data, so it can be used by higher layers of the protocol stack.
 
-An example of this is Apache's `mod_ssl` module. If it's [configured with the `StdEnvVars` option](http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#envvars), it will publish extensive SSL and certificate information as environment variables with predictable names. These variables can then be used by Apache itself, or by any application being spawned and managed by another Apache module (e.g. `mod_cgi`, `mod_passenger`, or `mod_php`). (This is how the puppet master accesses client certificate information when [running under Passenger][passenger].)
+An example of this is Apache's `mod_ssl` module. If it's [configured with the `StdEnvVars` option](http://httpd.apache.org/docs/2.2/mod/mod_ssl.html#envvars), it will publish extensive SSL and certificate information as environment variables with predictable names. These variables can then be used by Apache itself, or by any application being spawned and managed by another Apache module (e.g. `mod_cgi`, `mod_passenger`, or `mod_php`). (This is how the Puppet master accesses client certificate information when [running under Passenger][passenger].)
 
 SSL Termination and Proxying
 -----
@@ -68,11 +68,11 @@ SSL terminating proxies work by handling the incoming connection, then sending a
 
 If the application needs any SSL or certificate data, the proxy can be configured to publish it by inserting the data into the HTTP headers of the request it sends to the backend application server.
 
-An example of this is a puppet master running with the Nginx + Unicorn stack:
+An example of this is a Puppet master running with the Nginx + Unicorn stack:
 
 * Nginx terminates SSL, and inserts the SSL client authentication status and client certificate DN into the HTTP headers of a new request. It sends this request to the Unicorn workers.
-* A Unicorn worker receives the unencrypted request, and, according to the common gateway interface (CGI) standard, publishes all HTTP header information as CGI variables, including the SSL information inserted by Nginx. It uses the Rack interface to translate the HTTP request into a request to the puppet master application.
-* The puppet master application reads SSL information from pre-arranged environment variables, and uses its auth.conf configuration to decide whether to serve the request. If yes, it uses its own application logic to decide what the request should be. Any response passes back through the Unicorn worker and Nginx to make its way to the puppet agent client.
+* A Unicorn worker receives the unencrypted request, and, according to the common gateway interface (CGI) standard, publishes all HTTP header information as CGI variables, including the SSL information inserted by Nginx. It uses the Rack interface to translate the HTTP request into a request to the Puppet master application.
+* The Puppet master application reads SSL information from pre-arranged environment variables, and uses its auth.conf configuration to decide whether to serve the request. If yes, it uses its own application logic to decide what the request should be. Any response passes back through the Unicorn worker and Nginx to make its way to the Puppet agent client.
 
 
 End of Series

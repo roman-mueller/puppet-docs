@@ -27,13 +27,13 @@ This appendix will inspect two certificates and point out notable pieces of meta
 A Master or Agent Certificate
 -----
 
-The certificates used by puppet master servers and puppet agent nodes are essentially the same; the only real difference is that puppet master certs sometimes contain alternate DNS names the master is allowed to use.
+The certificates used by Puppet master servers and Puppet agent nodes are essentially the same; the only real difference is that Puppet master certs sometimes contain alternate DNS names the master is allowed to use.
 
-In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as a puppet master via the hostnames `magpie`, `magpie.example.com`, `puppet`, and `puppet.example.com`.
+In this case, we will be inspecting the certificate of a node named `magpie.example.com`, which is allowed to present itself as a Puppet master via the hostnames `magpie`, `magpie.example.com`, `puppet`, and `puppet.example.com`.
 
 ### PEM File
 
-A certificate is stored on disk as a [.pem file][pem] in puppet's `certdir`. The `certdir` is part of Puppet's `ssldir` hierarchy, which is documented elsewhere ([Puppet reference manual » important directories and files » ssldir][ssldir]). Another copy of the certificate is stored in the CA's `signed` directory. (The `puppet cert print` command uses this copy, which is why it can only be used on the CA node.)
+A certificate is stored on disk as a [.pem file][pem] in Puppet's `certdir`. The `certdir` is part of Puppet's `ssldir` hierarchy, which is documented elsewhere ([Puppet reference manual » important directories and files » ssldir][ssldir]). Another copy of the certificate is stored in the CA's `signed` directory. (The `puppet cert print` command uses this copy, which is why it can only be used on the CA node.)
 
 The name of the "privacy enhanced mail" (PEM) extension is somewhat misleading, since it has nothing to do with email; it's just a historical quirk of X.509 implementations.
 
@@ -78,8 +78,8 @@ The .pem file is double-encoded: first in the [distinguished encoding rules (DER
 
 To inspect a certificate, you must first dump it to a text format.
 
-* On the CA puppet master node, this can be done with the `puppet cert print <name>` command.
-* The `openssl x509 -text -noout -in <file>` command will also work and is not restricted to the CA puppet master, although it requires a full file path. Note that it also will not use friendly names for any Puppet-specific certificate extensions (explained further below).
+* On the CA Puppet master node, this can be done with the `puppet cert print <name>` command.
+* The `openssl x509 -text -noout -in <file>` command will also work and is not restricted to the CA Puppet master, although it requires a full file path. Note that it also will not use friendly names for any Puppet-specific certificate extensions (explained further below).
 
 Here's the certificate from above in human-readable form:
 
@@ -210,7 +210,7 @@ The **common name (CN)** is the most important piece of info in the DN. In this 
 
 The CN is the _only_ part of the DN used by Puppet. Puppet's settings and documentation often refer to the CN as the **certname** --- when a node sends a CSR to the CA, it uses the [`certname` setting][certname] to decide what to request as the CN portion of its DN. (Again, note that Puppet nodes will never request other DN components; Puppet only cares about the CN.)
 
-In a certificate presented by a puppet master, the CN will be interpreted as one of the legal hostnames at which the puppet master can provide services. In a certificate presented by a puppet agent node, the CN will be interpreted as that node's name, which is used when finding [node definitions][lang_node] and querying an [ENC][].
+In a certificate presented by a Puppet master, the CN will be interpreted as one of the legal hostnames at which the Puppet master can provide services. In a certificate presented by a Puppet agent node, the CN will be interpreted as that node's name, which is used when finding [node definitions][lang_node] and querying an [ENC][].
 
 In a non-Puppet certificate, other DN components can be seen. Take this example from the [Wikipedia page on X.509 certificates][wiki_x509]:
 
@@ -246,11 +246,11 @@ This field is listed under the "X509v3 extensions" section of the certificate.
 
 This optional field contains other names that the certificate's owner is allowed to use.
 
-Various types of names exist in the X.509 spec, but in Puppet, only the `DNS:` prefix is used, and each name represents a hostname that the owner is allowed to use when acting as a puppet master server.
+Various types of names exist in the X.509 spec, but in Puppet, only the `DNS:` prefix is used, and each name represents a hostname that the owner is allowed to use when acting as a Puppet master server.
 
-This section should generally only be present in a puppet master certificate. Its contents can be configured with the [`dns_alt_names` setting][altnames], which can be specified in the config file or on the command line --- when a node compiles its CSR, it will request any alternate names listed in that setting. The CA will see the requested alternate names, and will decide accordingly whether to sign the certificate.
+This section should generally only be present in a Puppet master certificate. Its contents can be configured with the [`dns_alt_names` setting][altnames], which can be specified in the config file or on the command line --- when a node compiles its CSR, it will request any alternate names listed in that setting. The CA will see the requested alternate names, and will decide accordingly whether to sign the certificate.
 
-(Agent nodes are all configured to reach their puppet master at a specific hostname. When the master presents its certificate, they check to make sure the name they called is included in this section of the certificate. This helps prevent man-in-the-middle impersonations of the puppet master --- a certificate that wasn't issued to the puppet master shouldn't have the puppet master's hostname included here.)
+(Agent nodes are all configured to reach their Puppet master at a specific hostname. When the master presents its certificate, they check to make sure the name they called is included in this section of the certificate. This helps prevent man-in-the-middle impersonations of the Puppet master --- a certificate that wasn't issued to the Puppet master shouldn't have the Puppet master's hostname included here.)
 
 ### CA Permissions
 
@@ -272,9 +272,9 @@ These fields are listed under the "X509v3 extensions" section of the certificate
 
 This defines the things the certificate can be used for. If you've read the [series of background articles on SSL][index], there should be no major surprises here. However, one note is that both agent and master certificates have both server and client authentication listed. This is because:
 
-* The puppet master cert is also used by puppet agent running on the puppet master node, in order to request a catalog. (From itself, but rules are rules: it still uses HTTPS to do so.)
-* The puppet master server process can sometimes act as a client, requesting services provided by a PuppetDB server, a different puppet master server, or another HTTPS service.
-* In certain configurations (mostly the deprecated "puppet kick" feature), the puppet agent process can run an HTTPS server that listens for requests on port 8139.
+* The Puppet master cert is also used by Puppet agent running on the Puppet master node, in order to request a catalog. (From itself, but rules are rules: it still uses HTTPS to do so.)
+* The Puppet master server process can sometimes act as a client, requesting services provided by a PuppetDB server, a different Puppet master server, or another HTTPS service.
+* In certain configurations (mostly the deprecated "Puppet kick" feature), the Puppet agent process can run an HTTPS server that listens for requests on port 8139.
 
 ### Puppet-Specific Certificate Extensions
 
