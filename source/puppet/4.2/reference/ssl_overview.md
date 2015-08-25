@@ -21,7 +21,7 @@ Puppet secures its communications with **client-verified HTTPS.** It also includ
 
 (insert something here about how the practical workflow stuff is on another page.)
 
-## Puppet's Use of HTTPS
+## Puppet's Use of HTTPS and Certificates
 
 In the standard agent/master arrangement, agent nodes fetch configurations from a Puppet master server via [several HTTPS endpoints][http_api].
 
