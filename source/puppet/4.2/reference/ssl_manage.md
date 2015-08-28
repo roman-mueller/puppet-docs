@@ -14,7 +14,7 @@ Intro: basically, Puppet needs certificates and the built-in CA makes it fairly 
 There are really only two or three things most people need to do with certificates:
 
 * Get new credentials (to add a new agent node)
-* Revoke and clean a node's credentials
+* Revoke and clean credentials (to deprovision an agent node)
 * Get new credentials for some external system that can't automatically talk to the Puppet CA the way Puppet agent can.
 
 ## Getting New Credentials for an Agent Node (needs better title)
@@ -24,7 +24,7 @@ A new agent node starts with no credentials at all. (Unless your provisioning pr
 The steps to get these credentials are:
 
 1. Start the Puppet agent service. It will automatically request a certificate and start polling to see if one is ready.
-2. Use the Puppet CA to sign the certificate.
+2. Use the Puppet CA to sign the certificate. The agent will automatically pick it up once it's signed.
 
 ### Requesting a Certificate
 
@@ -51,8 +51,8 @@ When the CA receives a CSR via its API, it stores it and awaits a decision re: s
 There are a few ways the CA can sign a cert:
 
 * Autosigning, which happens immediately. link to autosigning docs for full details.
-* Admin user using `puppet cert` command
-* Admin user using PE console node manager
+* Admin user using `puppet cert` command.
+* Admin user using PE console node manager.
 * Trusted certificate making requests to the `certificate_status` API endpoint.
 
 #### Signing Certs With `puppet cert`
@@ -87,8 +87,49 @@ link to the API docs.
 
 ## Revoking and Cleaning a Node's Credentials
 
+Two main concerns here:
 
+* un-trust the old cert. usually not urgent, unless the private key was stolen at some point, but it's considered good hygiene.
+* clear a spot, so that the CA won't mess things up if another node tries to request a cert by the same name sometime in the future.
 
+The second one is easy, but comprehensively un-trusting a cert is actually a bit more complicated. a lot of people don't bother, and puppet doesn't make it very easy. :(
+
+Cleaning/revoking a cert accomplishes the second goal and a tiny part of the first one. Updating CRLs is the long annoying step that accomplishes the rest of the first goal.
+
+### Cleaning a Certificate
+
+This can only be done on the CLI or with the API; the pe console can't do it.
+
+#### On the CLI
+
+On the CA server, an admin user with appropriate sudo privileges can run:
+
+    puppet cert clean <NAME>
+
+This revokes the certificate (updating the CA's copy of the CRL) and deletes everything else the CA knows about it. You can now issue a new certificate with the same name to a new node, if you need to.
+
+#### With the CA API
+
+Two steps to accomplish the same thing with the CA API:
+
+* Do a PUT request to the `certificate_status` API, using the name of the cert as the key, with a request body of `{"desired_state":"revoked"}`.
+* Do a DELETE request to the `certificate_status` API, using the name of the cert as the key.
+
+### Updating CRLs
+
+Puppet agent and Puppet Server never _automatically_ update the certificate revocation list with the latest info from the CA. They only fetch the CRL if it's not present on disk.
+
+This means when you revoke a certificate, only the CA knows it's revoked at first. For Puppet Server or Puppet agent to reject that certificate, you need to manually update the CRLs.
+
+#### For Puppet Agent
+
+* Either delete the CRL from the SSLdir (it'll automatically grab a replacement the next time Puppet agent starts up), or manually copy a new one into place (which is more secure, since I think Puppet agent doesn't check the validity of the server when fetching a CRL).
+* Restart the Puppet agent service.
+
+#### For Puppet Server
+
+* Manually copy a new CRL into the SSLdir.
+* Restart Puppet Server.
 
 
 
