@@ -36,7 +36,7 @@ Once a CSR is submitted, Puppet agent will repeatedly try to retrieve a signed c
 
 Puppet agent requests a certificate by name, using the value of its `certname` setting. This is the Subject CN it will request for its certificate. (If that name isn't unique and there's already a signed certificate by that name, it might fetch a certificate it won't be able to use, since it won't have the corresponding private key.)
 
-If there's a `csr_attributes.yaml` file present (link), Puppet agent will add any specified attributes to its CSR and request any specified extensions in its final certificate.
+If there's a `csr_attributes.yaml` file present (link), Puppet agent will add any specified attributes to its CSR and request any specified extensions in its final certificate. (link to page about attributes and extensions.)
 
 If the `dns_alt_names` setting has a value, Puppet agent will request those alt names in its certificate. (Useful for requesting a new Puppet master certificate for a non-CA master.)
 
@@ -73,6 +73,8 @@ Also, here's an example of puppet cert list, including one request with alt name
 ### signing certs with PE console
 
 link to the main docs.
+
+You can't sign certs with additional DNS alt names using the console. Use the CLI with the `--allow-dns-alt-names` option.
 
 ### signing certs with `certificate_status`
 
