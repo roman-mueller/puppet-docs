@@ -357,6 +357,7 @@ task :deploy do
   Rake::Task['build'].invoke
   mirrors.each do |mirror|
     sh "rake #{mirror} vlad:release"
+    sh "rake #{mirror} vlad:refresh_nginx_config"
     # Note that the below will always fail on the second mirror, even though it should totally work. Life is filled with mystery. >:|
     # Rake::Task[mirror].invoke
     # Rake::Task['vlad:release'].reenable # so we can invoke it again if this isn't the last mirror

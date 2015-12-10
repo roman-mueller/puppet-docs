@@ -44,4 +44,9 @@ remote_task :release do
   run "mv #{staging_dir}/#{tarball_name} #{deploy_to}/#{tarball_name}"
 end
 
+desc "Check validity of Nginx rewrite conf file, copy it into place, and gracefully restart Nginx if the file has changed"
+remote_task :refresh_nginx_config do
+  # Commands to run on production web hosts go here, as arguments to the "run" method
+end
+
 end
