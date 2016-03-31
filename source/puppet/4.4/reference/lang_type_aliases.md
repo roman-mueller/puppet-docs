@@ -11,7 +11,7 @@ Type aliases allow you to create reusable and descriptive types.
 
 ## Syntax
 
-Type aliases are written as `type <NAME> = <TYPE DEFINITION>`, the alias name beginning with a capital letter. The alias name must not be a [reserved word][reserved]. 
+Type aliases are written as `type <NAME> = <TYPE DEFINITION>`, the alias `<NAME>` beginning with a capital letter. The alias name must not be a [reserved word][reserved]. 
 
 As an example:
 
@@ -23,18 +23,19 @@ Would make `MyType` equivalent to `Integer`.
 
 This mechanism is used for several reasons:
 
+* Giving a type a descriptive name such as `IPv6Addr`, rather than just using a complex pattern based type.
 * Shortening complex type expressions and moving them "out of the way".
-* Giving a type a descriptive name; e.g. `IPv6Addr` rather than just using a complex pattern based type.
 * Reuse of types increases the quality as not everyone has to invent types like `IPv6Addr`.
 * Type definitions can be tested separately.
 
 
-## Type loading
+## Location
 
-Type aliases are auto loaded using the same loading rules and restrictions as functions except for what is noted here:
+Store the type aliases you write in your modules' `types` folder, which is a top-level directory, a sibling of `manifests` and `lib`. Define only one alias per file.
 
-* Compared to functions which are loaded from `<root>/functions/`, types are loaded from `<root>/types/`.
-* The name of the `.pp` file defining the alias must be the alias name in lower case without underscore separators inserted at "camel case" positions. Thus `MyType` is expected to be loaded from a file named `"mytype.pp"`.
+The name of the `.pp` file defining the alias must be the alias name in all lower case without underscore separators inserted at camel case positions. For example, `MyType` is expected to be loaded from a file named `"mytype.pp"`.
+
+>**Note:** It is okay to use type aliases in manifests when showing examples, or doing experiments, but best practices dictate you should define them as outlined above in production scenarios.
 
 
 ## Recursive types
@@ -64,7 +65,7 @@ It is also possible to create aliases to resource types.
 type MyFile = File
 ~~~
 
-When doing this, it is recommended to use the short form such as `File` instead of `Resource[File]`.
+When doing this, use the short form such as `File` instead of `Resource[File]`.
 
 
 ## Type aliases and type references are transparent
@@ -78,14 +79,6 @@ notice MyInteger == Integer
 
 notices `true`.
 
-The internal type system types TypeReference and TypeAlias are never values in a puppet program.
-
-
-## Best Practice
-
-* Use autoloading of type aliases
-* It is ok to use type aliases in manifests when showing examples, when doing experiments etc.
-* Always namespace type aliases with module name
-
+The internal type system types TypeReference and TypeAlias are never values in a Puppet program.
 
 
