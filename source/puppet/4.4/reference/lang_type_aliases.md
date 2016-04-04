@@ -19,13 +19,13 @@ As an example:
 type MyType = Integer
 ~~~
 
-Would make `MyType` equivalent to `Integer`.
+Makes `MyType` equivalent to `Integer`.
 
 This mechanism is used for several reasons:
 
-* Giving a type a descriptive name such as `IPv6Addr`, rather than just using a complex pattern based type.
-* Shortening complex type expressions and moving them "out of the way".
-* Reuse of types increases the quality as not everyone has to invent types like `IPv6Addr`.
+* Gives a type a descriptive name such as `IPv6Addr`, rather than just using a complex pattern based type.
+* Shortens complex type expressions and moves them "out of the way".
+* Reuse of types increases the quality, as not everyone has to invent types like `IPv6Addr`.
 * Type definitions can be tested separately.
 
 
@@ -70,15 +70,13 @@ When doing this, use the short form such as `File` instead of `Resource[File]`.
 
 ## Type aliases and type references are transparent
 
-The Puppet language aliases are transparent such as:
+The Puppet language aliases are transparent:
 
 ~~~
 type MyInteger = Integer
 notice MyInteger == Integer
 ~~~
 
-notices `true`.
+The above notices `true`.
 
-The internal type system types TypeReference and TypeAlias are never values in a Puppet program.
-
-
+The internal type system types `TypeReference` and `TypeAlias` are never values in a Puppet program.
