@@ -20,7 +20,17 @@ module Jekyll
       end
     end
 
+    class CollapseBlock < MarkdownBlock
+      def initialize(tag_name, markup, tokens)
+        super
+        @prefix = "opening tag(s) for collapse code goes here"
+        @suffix = "closing tag(s) here"
+      end
+    end
+
   end
 end
 
+# This is where we set the UI names for our tags. Setting that first one to 'md' means we'll call it as {% md %} ... {% endmd %}
 Liquid::Template.register_tag('md', Jekyll::Tags::MarkdownBlock)
+Liquid::Template.register_tag('collapse', Jekyll::Tags::CollapseBlock)
