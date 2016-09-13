@@ -30,6 +30,7 @@ module PuppetReferences
   require 'puppet_references/version_tables/pe_2016'
   require 'puppet_references/version_tables/agent_tables'
   require 'puppet_references/version_tables/agent_1x'
+  require 'puppet_references/version_tables/agent_2x'
 
   def self.build_puppet_references(commit)
     references = [
@@ -86,7 +87,8 @@ module PuppetReferences
         PuppetReferences::VersionTables::PeEarly3
     ]
     agent_classes = [
-        PuppetReferences::VersionTables::Agent1x
+        PuppetReferences::VersionTables::Agent1x,
+        PuppetReferences::VersionTables::Agent2x
     ]
 
     # Write all tables
