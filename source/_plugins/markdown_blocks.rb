@@ -20,10 +20,19 @@ module Jekyll
       end
     end
 
+    # The collapse tag requires:
+    # * A label, as an argument to the opening tag. No quotes needed.
+    # * A content body, as a block between the opening and closing tags.
+    # e.g.:
+    # {% collapse This label will be displayed on the button. %}
+    # ...content...
+    # {% endcollapse %}
     class CollapseBlock < MarkdownBlock
       def initialize(tag_name, markup, tokens)
         super
-        @prefix = "opening tag(s) for collapse code goes here"
+        @label = markup.strip
+        @id = @label.gsub(/\W/, '') # Remove spaces and punctuation
+        @prefix = "opening tag(s) for collapse code goes here. It can use both the #{@label} and #{@id} variables."
         @suffix = "closing tag(s) here"
       end
     end
