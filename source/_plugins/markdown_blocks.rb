@@ -32,8 +32,9 @@ module Jekyll
         super
         @label = markup.strip
         @id = @label.gsub(/\W/, '') # Remove spaces and punctuation
-        @prefix = "opening tag(s) for collapse code goes here. It can use both the #{@label} and #{@id} variables."
-        @suffix = "closing tag(s) here"
+        @prefix = "<div role='tab' id='heading" + @id + "'><h2 class='collapse-heading'><a class='collapsed' data-toggle='collapse' href='#" + @id + "' aria-expanded='true' aria-controls='" + @id + "'>" + @label + "</a></h2></div><div id='" + @id + "' class='collapse' role='tabpanel' aria-labelledby='heading" + @id + "'>"
+        @suffix = "</div>"
+
       end
     end
 
