@@ -27,14 +27,20 @@ module Jekyll
     # {% collapse This label will be displayed on the button. %}
     # ...content...
     # {% endcollapse %}
-    class CollapseBlock < MarkdownBlock
+    class CollapseBlock < Liquid::Block
       def initialize(tag_name, markup, tokens)
         super
         @label = markup.strip
         @id = @label.gsub(/\W/, '') # Remove spaces and punctuation
-        @prefix = "<div role='tab' id='heading" + @id + "'><h2 class='collapse-heading'><a class='collapsed' data-toggle='collapse' href='#" + @id + "' aria-expanded='true' aria-controls='" + @id + "'>" + @label + "</a></h2></div><div id='" + @id + "' class='collapse' role='tabpanel' aria-labelledby='heading" + @id + "'>"
-        @suffix = "</div>"
+      end
 
+      def render(context)
+        md_converter = context.registers[:site].converters.select {|c| c.matches('.md')}.first
+        prefix = "<div role='tab' id='heading" + @id + "'><h2 class='collapse-heading'><a class='collapsed' data-toggle='collapse' href='#" + @id + "' aria-expanded='true' aria-controls='" + @id + "'>" + md_converter.convert(@label) + "</a></h2></div><div id='" + @id + "' class='collapse' role='tabpanel' aria-labelledby='heading" + @id + "'>"
+        suffix = "</div>"
+        block_contents = super.to_s
+        output = md_converter.convert(block_contents)
+        prefix + output + suffix
       end
     end
 
